@@ -23,8 +23,6 @@ public class CameraShaderScript : MonoBehaviour
     public MusicTest musicTest;
     float t = 0;
 
-    public bool startLerp;
-
 	// Use this for initialization
 	void Start ()
     {
