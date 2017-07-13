@@ -1,4 +1,6 @@
-﻿Shader "Custom/ObjectShader"
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/ObjectShader"
 {
 	Properties
 	{
@@ -79,7 +81,7 @@
 				v2f vert(appdata v)
 				{
 					v2f o = (v2f)0;
-					o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+					o.vertex = UnityObjectToClipPos(v.vertex);
 					o.color = v.color;
 
 					//Texcoord.xy stores the distortion texture coordinations
@@ -95,7 +97,7 @@
 
 					//Calculate distance depended intensity
 					//Blend intensity linearily between near to far params
-					half depth = length(mul(UNITY_MATRIX_MVP, v.vertex));
+					half depth = length(UnityObjectToClipPos(v.vertex));
 					o.screenuv.z = saturate((_DistanceFade.y - depth) / (_DistanceFade.y - _DistanceFade.x));
 					o.screenuv.w = depth;
 

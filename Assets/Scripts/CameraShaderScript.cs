@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using audio;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
@@ -19,6 +20,11 @@ public class CameraShaderScript : MonoBehaviour
     private int scaledWidth;
     private int scaledHeight;
 
+    public MusicTest musicTest;
+    float t = 0;
+
+    public bool startLerp;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -32,6 +38,8 @@ public class CameraShaderScript : MonoBehaviour
         maskCam = new GameObject("Distort Mask Cam").AddComponent<Camera>();
         maskCam.enabled = false;
         maskCam.clearFlags = CameraClearFlags.Nothing;
+
+        musicTest = GameObject.FindGameObjectWithTag("Audio").GetComponent<MusicTest>();
 	}
 
     private void OnRenderImage(RenderTexture src, RenderTexture dst)
@@ -66,5 +74,14 @@ public class CameraShaderScript : MonoBehaviour
         magnitude = Mathf.Max(0.0f, magnitude);
         Shader.SetGlobalFloat("_DistortionOffset", -Time.time * speed);
         Shader.SetGlobalFloat("_DistortionAmount", magnitude / 100.0f);
+
+        if (musicTest.GetComponent<MusicTest>().frequency == 36)
+        {
+            magnitude = 0.5f;
+        }
+        else
+        {
+            magnitude = 0.1f;
+        }
     }
 }
